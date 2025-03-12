@@ -145,13 +145,3 @@ public class TaskView {
         return new Task(id, title, description, completed);
     }
 }
-
-
-
-
-
-
-
-
-
-
