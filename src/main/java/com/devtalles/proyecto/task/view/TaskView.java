@@ -19,11 +19,14 @@ public class TaskView {
     public void showMenu(){
         while (true){
             System.out.println("\n Gestión de Tareas");
-            System.out.println("1. Agregrar Tarea");
+            System.out.println("1. Agregar Tarea");
             System.out.println("2. Eliminar Tarea");
             System.out.println("3. Actualizar Tarea");
             System.out.println("4. Mostrar Tareas");
-            System.out.println("5. Salir");
+            System.out.println("5. Actualizar estado de la tarea");
+            System.out.println("6. Mostrar Tareas completadas");
+            System.out.println("7. Mostrar Tareas pendientes");
+            System.out.println("8. Salir");
             System.out.println("Seleccione una opción");
 
             String option = scanner.nextLine();
@@ -41,6 +44,15 @@ public class TaskView {
                     showTaskView();
                 break;
                 case "5":
+                    updateTaskCompletedView();
+                break;
+                case "6":
+                    showCompletedTasksView();
+                break;
+                case "7":
+                    showPendingTasksView();
+                break;
+                case "8":
                     System.out.println("Saliendo del sistema");
                 return;
                 default:
@@ -100,6 +112,52 @@ public class TaskView {
             e.printStackTrace();
         }
     }
+
+    public void updateTaskCompletedView(){
+        try {
+            System.out.println("Ingrese el ID de la Tarea");
+            String id = scanner.nextLine();
+
+            Boolean completed=null;
+            while (completed==null) {
+                System.out.println("¿Está completada? true/false");
+                String input = scanner.nextLine().trim().toLowerCase();
+                if(input.equals("true")){
+                    completed = true;
+                }else if(input.equals("false")){
+                    completed = false;
+                }else{
+                    System.out.println("El valor ingresado no es correcto, ingrese: 'true' o 'false'");
+                }
+            }
+            taskController.updateTaskCompleted(id, completed);
+            System.out.println("Estado de la tarea actualizado correctamente");
+        } catch (TaskValidationException | TaskException e) {
+            System.out.println("Error: " + e.getMessage());
+        } catch (Exception e){
+            System.out.println("Error inesperado, Contacte con el soporte");
+            e.printStackTrace();
+        }
+    }
+
+    public void showCompletedTasksView(){
+        try{
+            System.out.println("Tareas Completadas");
+            taskController.showsCompletedTaks();
+        } catch (TaskValidationException | TaskException e) {
+            System.out.println("Error" + e.getMessage());
+        }
+    }
+
+    public void showPendingTasksView(){
+        try{
+            System.out.println("Tareas Pendientes");
+            taskController.showsPendingTaks();
+        } catch (TaskValidationException | TaskException e) {
+            System.out.println("Error" + e.getMessage());
+        }
+    }
+
 
     private Task getTaskInput(){
         String id;

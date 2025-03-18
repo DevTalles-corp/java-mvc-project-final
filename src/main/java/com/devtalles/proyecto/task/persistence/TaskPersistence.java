@@ -35,7 +35,6 @@ public class TaskPersistence {
             System.out.println( "Error: " + e.getMessage());
             return new ArrayList<>();
         }
-
     }
 }
 

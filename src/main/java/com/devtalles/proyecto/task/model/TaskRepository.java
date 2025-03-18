@@ -1,18 +1,24 @@
 package com.devtalles.proyecto.task.model;
 
 import com.devtalles.proyecto.task.excepciones.TaskException;
+import com.devtalles.proyecto.task.persistence.TaskPersistence;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TaskRepository {
-    List<Task> tasks = new ArrayList<>();
+    List<Task> tasks;
+
+    public TaskRepository() {
+        tasks = TaskPersistence.loadTasks();
+    }
 
     public void save(Task task) throws TaskException {
-        if(task==null){
-            throw new TaskException("La tarea no puede ser nula");
+        if(tasks.contains(task)){
+            throw new TaskException("La tarea ya existe en nuestra BD");
         }
         tasks.add(task);
+        TaskPersistence.saveTasks(tasks);
     }
 
     public Task findById(String id){
@@ -24,12 +30,45 @@ public class TaskRepository {
         return null;
     }
 
+    public List<Task> findCompletedTasks() throws TaskException {
+
+        List<Task> completedTasks = new ArrayList<>();
+        for (Task task: tasks){
+            if(task.getCompleted()){
+                completedTasks.add(task);
+            }
+        }
+
+        if(completedTasks.isEmpty()){
+            throw new TaskException("No hay tareas completadas");
+        }
+        return completedTasks;
+    }
+
+    public List<Task> findPendingTasks() throws TaskException {
+
+        List<Task> pendingTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (!task.getCompleted()) {
+                pendingTasks.add(task);
+            }
+        }
+
+        if (pendingTasks.isEmpty()) {
+            throw new TaskException("No hay tareas pendientes");
+        }
+        return pendingTasks;
+    }
+
+
+
     public void remove(String id) throws TaskException {
         Task task = findById(id);
         if(task==null){
             throw new TaskException("La tarea no puede ser nula");
         }
         tasks.remove(task);
+        TaskPersistence.saveTasks(tasks);
     }
 
     public void remove(Task task) throws TaskException {
@@ -41,6 +80,7 @@ public class TaskRepository {
             throw new TaskException("La tarea no existe en la lista");
         }
         tasks.remove(task);
+        TaskPersistence.saveTasks(tasks);
     }
 
     public List<Task> findAll() throws TaskException {
@@ -68,5 +108,18 @@ public class TaskRepository {
             throw new TaskException("El índice no es válido");
         }
         tasks.set(index, updateTask);
+        TaskPersistence.saveTasks(tasks);
     }
+
+    public void updateTaskCompleted(String id, Boolean completed) throws TaskException {
+
+        int index = findIndexById(id);
+        if(index==-1){
+            throw new TaskException("El índice no es válido");
+        }
+        tasks.get(index).setCompleted(completed);
+        TaskPersistence.saveTasks(tasks);
+    }
+
+
 }
