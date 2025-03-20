@@ -152,7 +152,7 @@ public class TaskView {
     public void showPendingTasksView(){
         try{
             System.out.println("Tareas Pendientes");
-            taskController.showPendingTsaks();
+            taskController.showPendingTasks();
         } catch (TaskValidationException | TaskException e) {
             System.out.println("Error" + e.getMessage());
         }

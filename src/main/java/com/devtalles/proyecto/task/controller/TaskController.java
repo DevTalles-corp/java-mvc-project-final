@@ -46,7 +46,7 @@ public class TaskController {
         }
     }
 
-    public void showPendingTsaks() throws TaskValidationException, TaskException {
+    public void showPendingTasks() throws TaskValidationException, TaskException {
         List<Task> pendingTasks = this.taskRepository.findPendingTasks();
 
         for(Task task: pendingTasks){
