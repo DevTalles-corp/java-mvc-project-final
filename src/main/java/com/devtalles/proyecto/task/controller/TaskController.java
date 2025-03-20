@@ -29,7 +29,7 @@ public class TaskController {
 
     }
 
-    public void showsTaks() throws TaskValidationException, TaskException {
+    public void showTasks() throws TaskValidationException, TaskException {
         List<Task> tasks = this.taskRepository.findAll();
         if(tasks.isEmpty()){
             throw new TaskValidationException("La lista no puede estar vacía");
@@ -38,7 +38,7 @@ public class TaskController {
             System.out.println(task);
         }
     }
-    public void showsCompletedTaks() throws TaskValidationException, TaskException {
+    public void showCompletedTasks() throws TaskValidationException, TaskException {
         List<Task> completedTasks = this.taskRepository.findCompletedTasks();
 
         for(Task task: completedTasks){
@@ -46,7 +46,7 @@ public class TaskController {
         }
     }
 
-    public void showsPendingTaks() throws TaskValidationException, TaskException {
+    public void showPendingTsaks() throws TaskValidationException, TaskException {
         List<Task> pendingTasks = this.taskRepository.findPendingTasks();
 
         for(Task task: pendingTasks){

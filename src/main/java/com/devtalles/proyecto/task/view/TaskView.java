@@ -91,7 +91,7 @@ public class TaskView {
     public void showTaskView(){
         try {
             System.out.println("\nLa lista de Tareas");
-            this.taskController.showsTaks();
+            this.taskController.showTasks();
         } catch (TaskValidationException | TaskException e) {
             System.out.println("Error: " + e.getMessage());
         } catch (Exception e) {
@@ -143,7 +143,7 @@ public class TaskView {
     public void showCompletedTasksView(){
         try{
             System.out.println("Tareas Completadas");
-            taskController.showsCompletedTaks();
+            taskController.showCompletedTasks();
         } catch (TaskValidationException | TaskException e) {
             System.out.println("Error" + e.getMessage());
         }
@@ -152,7 +152,7 @@ public class TaskView {
     public void showPendingTasksView(){
         try{
             System.out.println("Tareas Pendientes");
-            taskController.showsPendingTaks();
+            taskController.showPendingTsaks();
         } catch (TaskValidationException | TaskException e) {
             System.out.println("Error" + e.getMessage());
         }
